@@ -12,6 +12,9 @@ def handler(event, context):
     portfolio_bucket = s3.Bucket('portfolio.alchemy-red.com')
     build_bucket = s3.Bucket('portfolio.alchemy-red.com-build')
 
+    sns = boto3.resource('sns')
+    topic = sns.Topic('arn:aws:sns:us-east-1:227633078671:DeployPortfolioTopic')
+
 
     portfolio_zip = StringIO.StringIO()
     build_bucket.download_fileobj('portfoliobuild.zip', portfolio_zip)
@@ -22,6 +25,9 @@ def handler(event, context):
             portfolio_bucket.upload_fileobj(obj, nm,
                 ExtraArgs={'ContentType':mimetypes.guess_type(nm)[0]})
             portfolio_bucket.Object(nm).Acl().put(ACL='public-read')
+
+
+    topic.publish(Subject='Portfolio Deployed', Message='Lambda has successfully deployed your Porfolio Application.')
 
     print 'Portfolio Deployed'
     return 'Portfolio Deployed'
