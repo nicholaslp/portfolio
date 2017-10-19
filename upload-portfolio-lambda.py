@@ -5,8 +5,10 @@ import zipfile
 import mimetypes
 
 
-def handler(event, context):
+def lambda_handler(event, context):
 
+    sns = boto3.resource('sns')
+    topic = sns.Topic('arn:aws:sns:us-east-1:227633078671:DeployPortfolioTopic')
 
     location = {
         'bucketName': 'portfolio.alchemy-red.com-build',
@@ -15,22 +17,23 @@ def handler(event, context):
 
     try:
 
+
         job = event.get('CodePipeline.job')
 
         if job:
-            for artifact in job['data', 'inputArtifacts']
-                if artifact['name'] == 'MyAppBuild'
+            print str(job)
+
+            for artifact in job['data', 'inputArtifacts']:
+                if artifact['name'] == 'MyAppBuild':
                     location = artifact['location']['s3Location']
 
 
-        print 'Building Portfolio: '+ str(location)
+        print'Building Portfolio: '+ str(location)
         s3 = boto3.resource('s3', config=Config(signature_version='s3v4'))
 
         portfolio_bucket = s3.Bucket('portfolio.alchemy-red.com')
         build_bucket = s3.Bucket(location['bucketName'])
 
-        sns = boto3.resource('sns')
-        topic = sns.Topic('arn:aws:sns:us-east-1:227633078671:DeployPortfolioTopic')
 
 
         portfolio_zip = StringIO.StringIO()
@@ -46,23 +49,16 @@ def handler(event, context):
 
         topic.publish(Subject='Portfolio Deployed', Message='Lambda has successfully deployed your Porfolio Application.')
 
+        if job:
+            codepipeline = boto3.client('codepipeline')
+            codepipeline.put_job_success_result(jobId=job['id'])
+
+
         print 'Portfolio Deployed'
 
-
-        if job:
-            codepipline = boto3.client('codepipeline')
-            codepipeline = put_job_success_result(jobId=job['id'])
-
-
-        return 'Portfolio Deployed'
     except:
 
-        if job:
-            codepipline = boto3.client('codepipeline')
-            codepipeline = put_job_failure_result(jobId=job['id'])
-
         topic.publish(Subject='Portfolio Deploy Failed', Message='Lambda has failed to deployed your Porfolio Application.')
-        print 'Portfolio Deploy Failed'
-        return 'Portfolio Deploy Failed'
+        raise
 
-    return 'Portfolio Deploy Failed'
+    return 'Portfolio Deploy Complete'
