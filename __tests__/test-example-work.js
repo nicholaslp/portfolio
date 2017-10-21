@@ -1,5 +1,7 @@
 import React from 'react';
 
+
+import raf from '../js/tempPolyfills'
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
@@ -26,18 +28,19 @@ const myWork = [
   }
 ];
 
-// describe("ExampleWork component", () => {
-//   let component = shallow(<ExampleWork work={myWork}/>);
-//
-//   it("Should be a 'section' element", () => {
-//     expect(component.type()).toEqual('section');
-//   });
-//
-//   it("Should contain as many children as there are work examples", () => {
-//     expect(component.find("ExampleWorkBubble").length).toEqual(myWork.length);
-//   });
-//
-// });
+describe("ExampleWork component", () => {
+
+  let component = shallow(<ExampleWork work={myWork}/>);
+
+  it("Should be a 'section' element", () => {
+    expect(component.type()).toEqual('section');
+  });
+
+  it("Should contain as many children as there are work examples", () => {
+    expect(component.find("ExampleWorkBubble").length).toEqual(myWork.length);
+  });
+
+});
 
 describe("ExampleWorkBubble component", () => {
 
