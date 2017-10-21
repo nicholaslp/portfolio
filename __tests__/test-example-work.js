@@ -1,58 +1,69 @@
-import React from 'react'
+import React from 'react';
 
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-configure({ adapter: new Adapter() });
-
-
 import ExampleWork, { ExampleWorkBubble } from '../js/example-work'
+
+configure({ adapter: new Adapter() });
 
 const myWork = [
   {
-    'title': "Work Example 1",
+    'title': "Work Example",
     'image': {
-      'desc': "Work Example 1",
+      'desc': "example screenshot of a project involving code",
       'src': "images/example1.png",
-      'comment': "Work Example 1"
+      'comment': ""
     }
   },
   {
-    'title': "Work Example 2",
+    'title': "Portfolio Boilerplate",
     'image': {
-      'desc': "Serverless",
+      'desc': "A Serverless Portfolio",
       'src': "images/example2.png",
-      'comment': "A Serverless Portfolio"
+      'comment': ""
     }
-  },
-]
+  }
+];
 
-describe("Examplework Component", () => {
+describe("ExampleWork component", () => {
+  let component = shallow(<ExampleWork work={myWork}/>);
 
-  let component = shallow(<ExampleWork work={myWork} />);
-
-  it("Should be a 'section' element", ()=> {
-    expect(component.type()).toEqual('section')
-  })
-
-  it("Should contain as many ExampleWorkBubble elements as items in work array", ()=> {
-    expect(component.find("ExampleWorkBubble").length).toEqual(myWork.length)
-  })
-
-})
-
-describe("ExampleWorkBubble Component", () => {
-
-  let component = shallow(<ExampleWorkBubble example={myWork[0]} />)
-
-  let images = component.find("img")
-
-  it("Should contain a single img element", ()=>{
-    expect(images.length).toEqual(1)
-  })
-
-  it("Should have the image src set correctly", () => {
-    expect(images.getElement().props.src).toEqual(myWork[0].image.src);
+  it("Should be a 'span' element", () => {
+    expect(component.type()).toEqual('span');
   });
 
-})
+  it("Should contain as many children as there are work examples", () => {
+    expect(component.find("ExampleWorkBubble").length).toEqual(myWork.length);
+  });
+
+  it("Should allow the modal to open and close", () => {
+    component.instance().openModal();
+    expect(component.instance().state.modalOpen).toBe(true);
+    component.instance().closeModal();
+    expect(component.instance().state.modalOpen).toBe(false);
+  });
+
+});
+
+describe("ExampleWorkBubble component", () => {
+  let mockOpenModalFn = jest.fn();
+
+  let component = shallow(<ExampleWorkBubble example={myWork[1]}
+    openModal={mockOpenModalFn}/>);
+
+  let images = component.find("img");
+
+  it("Should contain a single 'img' element", () => {
+    expect(images.length).toEqual(1);
+  });
+
+  it("Should have the image src set correctly", () => {
+    expect(images.getElement().props.src).toEqual(myWork[1].image.src);
+  });
+
+  it("Should call the openModal handler when clicked", () => {
+    component.find(".section__exampleWrapper").simulate('click');
+    expect(mockOpenModalFn).toHaveBeenCalled();
+  })
+});
