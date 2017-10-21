@@ -7,61 +7,39 @@ import ExampleWork, { ExampleWorkBubble } from '../js/example-work'
 
 configure({ adapter: new Adapter() });
 
-
-
-describe("ExampleWork component", () => {
-
-  const myWork = [
-    {
-      'title': "Work Example",
-      'image': {
-        'desc': "example screenshot of a project involving code",
-        'src': "images/example1.png",
-        'comment': ""
-      }
-    },
-    {
-      'title': "Portfolio Boilerplate",
-      'image': {
-        'desc': "A Serverless Portfolio",
-        'src': "images/example2.png",
-        'comment': ""
-      }
+const myWork = [
+  {
+    'title': "Work Example",
+    'image': {
+      'desc': "example screenshot of a project involving code",
+      'src': "images/example1.png",
+      'comment': ""
     }
-  ];
+  },
+  {
+    'title': "Portfolio Boilerplate",
+    'image': {
+      'desc': "A Serverless Portfolio",
+      'src': "images/example2.png",
+      'comment': ""
+    }
+  }
+];
 
-  let component = shallow(<ExampleWork work={myWork}/>);
-
-  it("Should be a 'section' element", () => {
-    expect(component.type()).toEqual('section');
-  });
-
-  it("Should contain as many children as there are work examples", () => {
-    expect(component.find("ExampleWorkBubble").length).toEqual(myWork.length);
-  });
-
-});
+// describe("ExampleWork component", () => {
+//   let component = shallow(<ExampleWork work={myWork}/>);
+//
+//   it("Should be a 'section' element", () => {
+//     expect(component.type()).toEqual('section');
+//   });
+//
+//   it("Should contain as many children as there are work examples", () => {
+//     expect(component.find("ExampleWorkBubble").length).toEqual(myWork.length);
+//   });
+//
+// });
 
 describe("ExampleWorkBubble component", () => {
-
-  const myWork = [
-    {
-      'title': "Work Example",
-      'image': {
-        'desc': "example screenshot of a project involving code",
-        'src': "images/example1.png",
-        'comment': ""
-      }
-    },
-    {
-      'title': "Portfolio Boilerplate",
-      'image': {
-        'desc': "A Serverless Portfolio",
-        'src': "images/example2.png",
-        'comment': ""
-      }
-    }
-  ];
 
   let component = shallow(<ExampleWorkBubble example={myWork[1]}/>);
 
