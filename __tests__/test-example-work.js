@@ -41,7 +41,7 @@ describe("ExampleWork component", () => {
 
 describe("ExampleWorkBubble component", () => {
 
-  let component = shallow(<ExampleWorkBubble example={myWork[0]}/>);
+  let component = shallow(<ExampleWorkBubble example={myWork[1]}/>);
 
   let images = component.find("img");
 
@@ -50,11 +50,7 @@ describe("ExampleWorkBubble component", () => {
   });
 
   it("Should have the image src set correctly", () => {
-    expect(images.getElement().props.src).toEqual(myWork[0].image.src);
+    expect(images.getElement().props.src).toEqual(myWork[1].image.src);
   });
 
-  // it("Should call the openModal handler when clicked", () => {
-  //   component.find(".section__exampleWrapper").simulate('click');
-  //   expect(mockOpenModalFn).toHaveBeenCalled();
-  // })
 });
