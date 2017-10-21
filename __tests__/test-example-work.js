@@ -29,7 +29,7 @@ const myWork = [
 
 describe("Examplework Component", () => {
 
-  let component = shallow(<ExampleWork work={myWork}/>)
+  let component = shallow(<ExampleWork work={myWork} />);
 
   it("Should be a 'section' element", ()=> {
     expect(component.type()).toEqual('section')
