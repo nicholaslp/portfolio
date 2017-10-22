@@ -44,7 +44,7 @@ class ExampleWork extends React.Component {
         }
 
       </section>
-      <ExampleWorkModal example={this.state.selectedExample} isOpen={this.state.modalOpen}/>
+      <ExampleWorkModal example={this.state.selectedExample} isOpen={this.modalOpen}/>
       </span>
     )
   }
