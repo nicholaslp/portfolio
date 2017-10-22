@@ -38,7 +38,7 @@ class ExampleWork extends React.Component {
       <section className="section section--alignCentered section--description">
         { this.props.work.map( (example, idx) => {
             return (
-              <ExampleWorkBubble example={example} key={idx}/>
+              <ExampleWorkBubble example={example} key={idx} openModal={this.openModal}/>
             )
           })
         }
