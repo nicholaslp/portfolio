@@ -9,6 +9,7 @@ class ExampleWorkModal extends React.Component {
     const example = this.props.example
     const modalClass = this.props.isOpen === true ? "modal--open" : "modal--closed"
 
+    console.log(this.props)
     return(
       <div className={"background--skyBlue "+modalClass}>
         <span className="color--cloud modal__closeButton">
